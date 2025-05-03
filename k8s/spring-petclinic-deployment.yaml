@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-petclinic
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-petclinic
+  template:
+    metadata:
+      labels:
+        app: spring-petclinic
+    spec:
+      containers:
+      - name: spring-petclinic
+        image: 207567800871.dkr.ecr.us-east-1.amazonaws.com/spring-petclinic-app:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-petclinic-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: spring-petclinic
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
